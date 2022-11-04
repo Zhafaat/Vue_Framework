@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belajar Vue.js</title>
+    <style>
+        body {
+            margin: 5%;
+            font-family: 'Quicksand', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <img src="data:image/png;base64,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" alt="logo vue" width="200">
+            <h1>{{ name }}</h1>
+            <p>{{ 1 == 2 ? 'benar' : 'salah' }}</p>
+            <p>{{ getFunction() }}</p>
+            <p>The Progressive JavaScript framework</p>
+            <p>{{namaLengkap}}</p>
+        </header>
+        <footer id="footer">
+            <p>copyright 2022</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script>
+        const member = {
+            name: 'Vue.js',
+            message : 'Hello World!',
+            qty: 1,
+            namaDepan: "Zhafaat ",
+            namaBelakang: "Rahimi Zainal"
+        }
+
+        const vue = new Vue({
+            el: '#app',
+            data: member,
+            methods : {
+                getFunction : function(){
+                    return "hello, " + this.name;
+                },
+                ubahNama : function(namaBaru){
+                    this.name = namaBaru
+                    return this.getFunction()
+                }
+            },
+            computed: {
+                totalBayar: function(){
+                    return this.qty * 10000
+                },
+                namaLengkap: function(){
+                    return this.namaDepan + this.namaBelakang
+                }
+            }
+        })
+    </script>
+</body>
+</html>
