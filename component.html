@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belajar Vue.js</title>
+    <style>
+        body {
+            margin: 5%;
+            font-family: 'Quicksand', sans-serif;
+        }
+        .active {
+            background: salmon;
+            border: 0;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+
+        <header-component></header-component>
+
+        <!-- <nav>
+            <router-link to="/foo">Home</router-link>
+            <router-link to="/about">About</router-link>
+            <router-link to="/about">Kelas</router-link>
+        </nav> -->
+                
+        <main>
+            <kelas :items="kelas" v-on:submitkelas="submitKelas" v-on:hapuskelas="hapusKelas"></kelas>
+        </main>
+
+        <footer-component>
+            <p>copyright 2022</p>
+        </footer-component>
+        
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <!-- <script src="https://unpkg.com/vue@3"></script> -->
+    <!-- <script src="https://unpkg.com/vue-router@4"></script> -->
+    <script>
+        // const Home = {
+        //     template: '<div>Home</div>'
+        // }
+        // const About = {
+        //     template: '<div>About</div>'
+        // }
+        // const Kelas = {
+        //     props: ['items'],
+        //     template: `
+        //         <div>
+        //             <h3>Input Kelas</h3>
+        //             <p>
+        //                 <input type="text" placeholder="Input Kelas" @keyup.enter="$emit('submitkelas', $event)"> 
+        //             </p>
+        //             <hr>
+        //             <h4>list Bahasa Pemograman</h4>
+        //             <template v-if="items.length">
+        //                 <ul>
+        //                     <li v-for="(item, index) of items">{{ index+1 }} - {{ item }}
+        //                           <a href="" v-on:click.prevent="$emit('hapuskelas', index)">hapus</a>  
+        //                     </li>
+        //                 </ul>
+        //             </template>
+        //             <p v-else>Bahasa Pemograman Tidak Tersedia</p>
+        //         </div>
+        //     `,
+        //     data : function(){
+        //         return{
+                       
+        //         }
+        //     },
+        //     methods : {
+        //     }
+        // }
+
+        Vue.component('header-component', {
+            // props: ['name', 'image'],
+            template: `
+                <header>
+                    <img src="https://miro.medium.com/max/900/1*OrjCKmou1jT4It5so5gvOA.jpeg" alt="logo vue" width="200px">
+                    <h3>Hello, Vue.js</h3>
+                    <p>The Progressive JavaScript framework</p>
+                </header>`,
+                data: function() {
+                        return {
+                            pesan : 'HELLO, FRIENDS'
+                        }
+                }
+        })
+        Vue.component('footer-component', {
+            template: `
+                <footer id="footer">
+                    <slot></slot>
+                </footer>
+            `
+        })
+        Vue.component('kelas', {
+            props: ['items'],
+            template: `
+                <div>
+                    <h3>Input Kelas</h3>
+                    <p>
+                        <input type="text" placeholder="Input Kelas" @keyup.enter="$emit('submitkelas', $event)"> 
+                    </p>
+                    <hr>
+                    <h4>list Bahasa Pemograman</h4>
+                    <template v-if="items.length">
+                        <ul>
+                            <li v-for="(item, index) of items">{{ index+1 }} - {{ item }}
+                                  <a href="" v-on:click.prevent="$emit('hapuskelas', index)">hapus</a>  
+                            </li>
+                        </ul>
+                    </template>
+                    <p v-else>Bahasa Pemograman Tidak Tersedia</p>
+                </div>
+            `,
+            data : function(){
+                return{
+                       
+                }
+            },
+            methods : {
+            }
+        })
+        
+        // const routes = [
+        //     { path: '/', component: Home },
+        //     { path: '/about', component: About },
+        //     { path: '/kelas', component: Kelas}
+        // ]
+
+        // const router = new VueRouter({
+        //     routes
+        // })
+
+        // const router = VueRouter.createRouter({
+        //     // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
+        //     history: VueRouter.createWebHashHistory(),
+        //     routes
+        // })
+
+        const vue = new Vue({
+            el: '#app',
+            // router,
+            data: {
+                kelas: ['golang', 'phyton', 'php', 'jaca', 'javascript'],
+                kelasBaru: ''
+            },
+            methods : {
+                hapusKelas: function(input) {
+                    console.log(input)
+                    this.kelas.splice(input, 1)
+                },
+                submitKelas: function(event){
+                    console.log(event.target.value)
+                    this.kelas.unshift(event.target.value)
+                    event.target.value = ''
+                }
+            }
+        })
+    </script>
+</body>
+</html>
