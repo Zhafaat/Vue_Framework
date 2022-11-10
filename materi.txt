@@ -4,3 +4,13 @@ Single page aplication (membuat aplikasi sederhana dengan konsep satu halaman) d
 
 > Membuat Single Page Application (SPA)
 secara sederhana tatacara pembuatan SPA ada di dokumentasi router Vue js
+perlu di perhatika bahwa pada file component.html masih menggunakan framework Vue.js model 2 tahun lalu
+sehingga pembuatan SPA menggunakan router terbaru akan menimbulkan error
+sehingga di buat file baru router.html untuk menyesuaikan framework Vue.js terupdate dengan router vueJs
+perbedaan versi 2 tahun yang lalu dengan model terupdate ada pada pendefinisian root vue-nya
+> history mode
+property tambahan router yang memungkinkan kit auntuk mengakses web page vue melalui local host
+> penyelesaian SPA 
+pada file router.html, tambahan codingan setelah penambahan histpry mode, adalah mengupdate sistem input menggunakan form dan submit button, untuk menambahkan data array kelas yang telah di defisikan secara global, serta menginput gambar, menampilkan dan mengambil datanya.
+> halaman 404
+halam ini berguna untuk menampilkan informasi error ketika user mengakses router yang salah 

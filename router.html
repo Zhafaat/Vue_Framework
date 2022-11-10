@@ -9,7 +9,8 @@
 <body>
     <script src="https://unpkg.com/vue@3"></script>
     <script src="https://unpkg.com/vue-router@4"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/uuidv4.min.js"></script>
+
     <div id="app">
       <h1>Hello App!</h1>
       <p>
@@ -20,30 +21,112 @@
         <router-link to="/kelas">Kelas</router-link>
         <router-link to="/about">Go to About</router-link>
       </p>
+      <router-view :items="kelas" v-on:submitkelas="submitKelas" v-on:hapuskelas="hapusKelas">
+      </router-view>
+      <div>
+        <header>
+            <img src="https://miro.medium.com/max/900/1*OrjCKmou1jT4It5so5gvOA.jpeg" alt="logo vue" width="300">
+            <h3>Hello, Vue.js</h3>
+            <p>The Progressive JavaScript framework</p>
+        </header>
+    </div>
       <!-- route outlet -->
       <!-- component matched by the route will render here -->
-      <router-view></router-view>
     </div>
 
     <script>
         const Home = { 
             template: `
-            <div>
-                <header>
-                    <img src="https://miro.medium.com/max/900/1*OrjCKmou1jT4It5so5gvOA.jpeg" alt="logo vue" width="300">
-                    <h3>Hello, Vue.js</h3>
-                    <p>The Progressive JavaScript framework</p>
-                </header>
-            </div>
+            
             ` 
         }
-        const Kelas = { template: '<div>Kelas</div>'}
-        const About = { template: '<div>About</div>' }
+        const Kelas = { 
+            props: ['items'],
+            template: `
+                <div>
+                    <h3>Input Kelas</h3>
+                    
+                    <form @submit.prevent="submitInput">
+                        <p><input type="text" placeholder="Nama Kelas" v-model="kelas.judul"></p>
+
+                        <div class="input-group">
+                            <label>Deskripsi: </label> <br>
+                            <textarea v-model="kelas.deskripsi"></textarea>
+                        </div>
+
+                        <div class="input-group">
+                            <p><img :src="previewimg" ref="gambar" v-if="previewimg" width="200"/></p>
+                            <label>Masukkan Gambar</label> <br>
+                            <input type="file" v-on:change="uploadimage"/>
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+
+                    <hr>
+                    <h4>list Bahasa Pemograman</h4>
+                    <template v-if="items.length">
+                        <ul>
+                            <li v-for="(item, index) of items">
+                                <img :src="item.gambar" width="200"/>
+                                <p>
+                                    {{ index+1 }} - {{ item.judul }}
+                                      <a href="" v-on:click.prevent="$emit('hapuskelas', item.id)">hapus</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </template>
+                    <p v-else>Bahasa Pemograman Tidak Tersedia</p>
+                </div>
+            `,
+            data() {
+                return {
+                    kelas: {
+                        judul: '',
+                        deskripsi: '',
+                        gambar: ''
+                    },
+                    previewimg: ''
+                }
+            },
+            methods: {
+                submitInput: function(){
+                    const data = {
+                        id: uuidv4(),
+                        judul: this.kelas.judul,
+                        deskripsi: this.kelas.deskripsi,
+                        gambar: this.kelas.gambar
+                    }
+                    // console.log(data)
+                    this.$emit('submitkelas', data)
+                    this.kelas.judul = ''
+                    this.kelas.deskripsi = ''
+                    this.kelas.gambar = ''
+                    this.previewimg = ''
+                    this.$refs.gambar.value = ''
+                },
+                uploadimage: function(event){
+                    const namaGambar = event.target.files[0].name
+                    this.kelas.gambar = namaGambar
+                    this.previewimg = URL.createObjectURL(event.target.files[0])
+                }
+            }
+        }
+        const About = { 
+            template: `
+                <footer id="footer">
+                    <p>copyright 2022</p>
+                </footer>
+            ` 
+        }
+        const NotFound = {
+            template: `<div>Halaman Tidak Ditemukan.</div>`
+        }
 
         const routes = [
             { path: '/', component: Home },
             { path: '/kelas', component: Kelas},
             { path: '/about', component: About },
+            { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
         ]
 
         const router = VueRouter.createRouter({
@@ -51,11 +134,36 @@
             routes, // short for `routes: routes`
         })
 
-        const app = Vue.createApp({})
+        const app = Vue.createApp({
+            data() {
+                return {
+                    kelas: [
+                        {id: 1, judul: 'Vuejs', deskripsi: 'The Progressive JavaScript Framework', gambar: 'https://miro.medium.com/max/900/1*OrjCKmou1jT4It5so5gvOA.jpeg'}, 
+                        {id: 2, judul: 'Reactjs', deskripsi: 'A JavaScript library for building user interfaces', gambar: 'https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg'}
+                    ]
+                }
+            },
+            methods: {
+                hapusKelas: function(id) {
+                    console.log(id)
+                    this.kelas = this.kelas.filter(item => item.id != id)
+                },
+                submitKelas: function(data){
+                    // console.log(data)
+                    this.kelas.push(data)
+                //     this.kelas.unshift(event.target.value)
+                //     event.target.value = ''
+                }
+            }
+        })
 
         app.use(router)
 
         app.mount('#app')
+
+        // const vue = new Vue({
+
+        // })
 
     </script>
 </body>
