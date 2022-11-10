@@ -5,6 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            margin: 5%;
+            font-family: 'Arino', sans-serif;
+            font-size: small;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .input-group {
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
     <script src="https://unpkg.com/vue@3"></script>
@@ -47,17 +62,22 @@
                     <h3>Input Kelas</h3>
                     
                     <form @submit.prevent="submitInput">
-                        <p><input type="text" placeholder="Nama Kelas" v-model="kelas.judul"></p>
+                        <div class="input-group">
+                            <input type="text" placeholder="Nama Kelas" v-model="kelas.judul">
+                            <div class="error" v-if="error.judul"><small>{{error.judul}}</small></div>
+                        </div>
 
                         <div class="input-group">
                             <label>Deskripsi: </label> <br>
                             <textarea v-model="kelas.deskripsi"></textarea>
+                            <div class="error" v-if="error.deskripsi"><small>{{error.deskripsi}}</small></div>
                         </div>
 
                         <div class="input-group">
                             <p><img :src="previewimg" ref="gambar" v-if="previewimg" width="200"/></p>
                             <label>Masukkan Gambar</label> <br>
                             <input type="file" v-on:change="uploadimage"/>
+                            <div class="error" v-if="error.gambar"><small>{{error.gambar}}</small></div>
                         </div>
                         <button type="submit">Submit</button>
                     </form>
@@ -85,24 +105,45 @@
                         deskripsi: '',
                         gambar: ''
                     },
-                    previewimg: ''
+                    previewimg: '',
+                    error: {
+                        judul: '',
+                        deskripsi: '',
+                        gambar: ''
+                    }
                 }
             },
             methods: {
                 submitInput: function(){
-                    const data = {
-                        id: uuidv4(),
-                        judul: this.kelas.judul,
-                        deskripsi: this.kelas.deskripsi,
-                        gambar: this.kelas.gambar
+                    // console.log(this.kelas)
+                    this.error.judul = ''
+                    this.error.deskripsi = ''
+                    this.error.gambar = ''
+                    if (this.kelas.judul == ''){
+                        this.error.judul = 'Judul is required'
                     }
-                    // console.log(data)
-                    this.$emit('submitkelas', data)
-                    this.kelas.judul = ''
-                    this.kelas.deskripsi = ''
-                    this.kelas.gambar = ''
-                    this.previewimg = ''
-                    this.$refs.gambar.value = ''
+                    if (this.kelas.deskripsi == ''){
+                        this.error.deskripsi = 'Deskripsi is required'
+                    }
+                    if (this.kelas.gambar == ''){
+                        this.error.gambar = 'Image is required'
+                    }
+                    if (this.kelas.judul && this.kelas.deskripsi && this.kelas.gambar){
+                        const data = {
+                            id: uuidv4(),
+                            judul: this.kelas.judul,
+                            deskripsi: this.kelas.deskripsi,
+                            gambar: this.kelas.gambar
+                        }
+                        // console.log(data)
+                        this.$emit('submitkelas', data)
+                        this.kelas.judul = ''
+                        this.kelas.deskripsi = ''
+                        this.kelas.gambar = ''
+                        this.previewimg = ''
+                        // this.$refs.gambar.value = ''
+                    }
+                    
                 },
                 uploadimage: function(event){
                     const namaGambar = event.target.files[0].name

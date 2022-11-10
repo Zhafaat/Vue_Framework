@@ -13,4 +13,6 @@ property tambahan router yang memungkinkan kit auntuk mengakses web page vue mel
 > penyelesaian SPA 
 pada file router.html, tambahan codingan setelah penambahan histpry mode, adalah mengupdate sistem input menggunakan form dan submit button, untuk menambahkan data array kelas yang telah di defisikan secara global, serta menginput gambar, menampilkan dan mengambil datanya.
 > halaman 404
-halam ini berguna untuk menampilkan informasi error ketika user mengakses router yang salah 
+halam ini berguna untuk menampilkan informasi error ketika user mengakses router yang salah
+> fitur validation
+menambahkan syarat agar input form harus di isi bisa menggunakan metode javascript seperti yang ada di dalam file router.html pada component kelas function submitInput.
