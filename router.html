@@ -40,7 +40,7 @@
       </router-view>
       <div>
         <header>
-            <img src="https://miro.medium.com/max/900/1*OrjCKmou1jT4It5so5gvOA.jpeg" alt="logo vue" width="300">
+            <img src="https://vuejs.id/hero.png" alt="logo vue" width="500">
             <h3>Hello, Vue.js</h3>
             <p>The Progressive JavaScript framework</p>
         </header>
@@ -87,7 +87,7 @@
                     <template v-if="items.length">
                         <ul>
                             <li v-for="(item, index) of items">
-                                <img :src="item.gambar" width="200"/>
+                                <img :src="'image/' + item.gambar" width="200"/>
                                 <p>
                                     {{ index+1 }} - {{ item.judul }}
                                       <a href="" v-on:click.prevent="$emit('hapuskelas', item.id)">hapus</a>
@@ -146,6 +146,7 @@
                     
                 },
                 uploadimage: function(event){
+                    // console.log(event)
                     const namaGambar = event.target.files[0].name
                     this.kelas.gambar = namaGambar
                     this.previewimg = URL.createObjectURL(event.target.files[0])
@@ -178,11 +179,15 @@
         const app = Vue.createApp({
             data() {
                 return {
-                    kelas: [
-                        {id: 1, judul: 'Vuejs', deskripsi: 'The Progressive JavaScript Framework', gambar: 'https://miro.medium.com/max/900/1*OrjCKmou1jT4It5so5gvOA.jpeg'}, 
-                        {id: 2, judul: 'Reactjs', deskripsi: 'A JavaScript library for building user interfaces', gambar: 'https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg'}
-                    ]
+                    // kelas: [
+                    //     {id: 1, judul: 'Vuejs', deskripsi: 'The Progressive JavaScript Framework', gambar: "vue.jpeg"}, 
+                    //     {id: 2, judul: 'Reactjs', deskripsi: 'A JavaScript library for building user interfaces', gambar: "react-logo.jpg"}
+                    // ],
+                    kelas: []
                 }
+            },
+            created() {
+                this.kelas = JSON.parse(localStorage.getItem('kelas')) || []
             },
             methods: {
                 hapusKelas: function(id) {
@@ -192,6 +197,7 @@
                 submitKelas: function(data){
                     // console.log(data)
                     this.kelas.push(data)
+                    localStorage.setItem('kelas', JSON.stringify(this.kelas))
                 //     this.kelas.unshift(event.target.value)
                 //     event.target.value = ''
                 }

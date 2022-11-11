@@ -16,3 +16,13 @@ pada file router.html, tambahan codingan setelah penambahan histpry mode, adalah
 halam ini berguna untuk menampilkan informasi error ketika user mengakses router yang salah
 > fitur validation
 menambahkan syarat agar input form harus di isi bisa menggunakan metode javascript seperti yang ada di dalam file router.html pada component kelas function submitInput.
+> local storage
+tempat penyimpanan bawaan browser, dapat di akses dengan syntax menambahkan item
+                    localStorage.setItem('kelas', JSON.stringify(this.kelas))
+dengan dua parameter, pertama nama untuk localstoragenya, kedua nilai yang akan di upload.
+
+selanjutnya untuk menggunakan localStorage ini kita dapat menggunakan syntax mendapatkan item 
+                this.kelas = JSON.parse(localStorage.getItem('kelas')) || []
+perlu diperhatikan data dari localStorage masih berbentuk JSON jadi kita perlu menambahkan syntax JSON.parce(), untuk mengubahnya menjadi object
+> Lifecycle Diagram
+didokumentasi VueJs kita dapat mempelajari Lifecycle Diagram untuk memahami aplikasi yg kita buat menggunakan vueJs
