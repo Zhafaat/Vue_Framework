@@ -26,3 +26,20 @@ selanjutnya untuk menggunakan localStorage ini kita dapat menggunakan syntax men
 perlu diperhatikan data dari localStorage masih berbentuk JSON jadi kita perlu menambahkan syntax JSON.parce(), untuk mengubahnya menjadi object
 > Lifecycle Diagram
 didokumentasi VueJs kita dapat mempelajari Lifecycle Diagram untuk memahami aplikasi yg kita buat menggunakan vueJs
+> menambahakan sweetalert
+untuk memberikan informasi ketika data di submit. 
+untuk notifikasi bawaan javascript, kita dapat menggunakan alert method
+untuk notifikasi yang bagus kita dapat mengakses web sweetalert, dan menggunakan swal method.
+> menghapus data di localstorage
+kita dapat menghapus menggunakan function hapus data yang telah dibuat diawal materi
+akan tetapi function tersebut masih belum mempengaruhi localstorage
+oleh karena itu setiap unction hapus data dipanggil, maka kita perlu mengupgrade localstorage sesuai dengan kondisi terbaru
+maka cukup dengan menambahkan 
+                    localStorage.setItem('kelas', JSON.stringify(this.kelas))
+maka setiap kali data di hapus localstorage juga akan otomatis terupgrade
+>Lifecycle Hooks (siklus Hidup)
+pada web Vue.js, buka Guide/The Vue Instance/Instance Lifecycle Hooks
+jenis-jenis Lifecycle didalam Vuejs, created, mounted, updated, destroyed
+ada dua metode ketika vue ingin menjalankan sebuah Lifecycle, yaitu mencari el pada const app = Vue.createApp({}) 
+atau mencari el melalui $mount(el) dimana metode ini digunakan ketika menggunakan vueCLI <=> el = id pada element/tag div induk/parent
+

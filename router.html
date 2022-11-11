@@ -25,6 +25,7 @@
     <script src="https://unpkg.com/vue@3"></script>
     <script src="https://unpkg.com/vue-router@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/uuidv4.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <div id="app">
       <h1>Hello App!</h1>
@@ -91,6 +92,7 @@
                                 <p>
                                     {{ index+1 }} - {{ item.judul }}
                                       <a href="" v-on:click.prevent="$emit('hapuskelas', item.id)">hapus</a>
+                                      <router-link :to="'/kelas/' + item.id">Detail kelas</router-link>
                                 </p>
                             </li>
                         </ul>
@@ -153,6 +155,9 @@
                 }
             }
         }
+        const detailKelas = {
+            template: `<div>Detail Kelas</div>`
+        }
         const About = { 
             template: `
                 <footer id="footer">
@@ -167,6 +172,7 @@
         const routes = [
             { path: '/', component: Home },
             { path: '/kelas', component: Kelas},
+            { path: '/kelas/:id', component: detailKelas},
             { path: '/about', component: About },
             { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
         ]
@@ -188,11 +194,33 @@
             },
             created() {
                 this.kelas = JSON.parse(localStorage.getItem('kelas')) || []
+                console.log('created')
+            },
+            beforeCreate() {
+                console.log('before-create')
+            },
+            beforeMount() {
+                console.log('before-mount')
+            },
+            mounted() {
+                console.log('mounted')
+            },
+            beforeUpdate() {
+                console.log('before-update')
+            },
+            updated() {
+                console.log('updated')
             },
             methods: {
                 hapusKelas: function(id) {
-                    console.log(id)
+                    // console.log(id)
                     this.kelas = this.kelas.filter(item => item.id != id)
+                    localStorage.setItem('kelas', JSON.stringify(this.kelas))
+
+                    swal({
+                        text: 'Data berhasil dihapus',
+                        icon: 'warning'
+                    })
                 },
                 submitKelas: function(data){
                     // console.log(data)
@@ -200,6 +228,11 @@
                     localStorage.setItem('kelas', JSON.stringify(this.kelas))
                 //     this.kelas.unshift(event.target.value)
                 //     event.target.value = ''
+                    swal({
+                        title: data.judul,
+                        text: 'Data berhasil disimpan',
+                        icon: 'success'
+                    })
                 }
             }
         })
